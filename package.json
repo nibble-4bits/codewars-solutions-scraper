@@ -4,6 +4,7 @@
   "description": "A scraper that gets the solutions of all of the CodeWars katas you have solved",
   "main": "main.js",
   "scripts": {
+    "start": "node main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,5 +24,11 @@
   "bugs": {
     "url": "https://github.com/nibble-4bits/codewars-solutions-scraper/issues"
   },
-  "homepage": "https://github.com/nibble-4bits/codewars-solutions-scraper#readme"
+  "homepage": "https://github.com/nibble-4bits/codewars-solutions-scraper#readme",
+  "dependencies": {
+    "chalk": "^4.0.0",
+    "commander": "^5.1.0",
+    "inquirer": "^7.1.0",
+    "puppeteer": "^3.1.0"
+  }
 }
