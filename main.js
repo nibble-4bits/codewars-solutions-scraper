@@ -37,7 +37,7 @@ async function main() {
     else if (program.github) {
         await page.goto(`${CODEWARS_BASE_URL}/users/preauth/github/signin`, { waitUntil: 'domcontentloaded' });
 
-        await page.type('#login_field', program.email, { delay: 300 });
+        await page.type('#login_field', program.email);
         await page.type('#password', program.password);
         await page.click('#login input[type="submit"]');
 
