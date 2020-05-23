@@ -5,6 +5,26 @@ const chalk = require('chalk');
 
 const CODEWARS_BASE_URL = 'https://www.codewars.com';
 
+async function autoScroll(page) {
+    return await page.evaluate(() => {
+        async function wait(ms) {
+            return new Promise((resolve, reject) => {
+                setTimeout(resolve, ms);
+            });
+        }
+
+        return new Promise(async (resolve, reject) => {
+            let currentScrollHeight = 0;
+            while (currentScrollHeight < document.body.scrollHeight) {
+                currentScrollHeight = document.body.scrollHeight;
+                window.scroll(0, document.body.scrollHeight);
+                await wait(1500);
+            }
+            resolve();
+        });
+    });
+}
+
 async function main() {
     program
         .version('1.0.0')
@@ -44,24 +64,23 @@ async function main() {
         await page.waitForNavigation({ waitUntil: 'networkidle0' });
 
         if (page.url() === 'https://github.com/sessions/verified-device') {
-            inquirer
+            const answer = await inquirer
                 .prompt([
                     { type: 'input', name: 'verificationCode', message: `Please enter the verification code that was sent to ${program.email}:` }
-                ])
-                .then(async answer => {
-                    await page.type('#otp', answer.verificationCode);
-                    await page.click('#login button');
-                    await page.waitForNavigation({ waitUntil: 'networkidle0' });
-                })
-                .catch(error => {
-                    console.error(chalk.redBright(error));
-                });
+                ]);
+
+            await page.type('#otp', answer.verificationCode);
+            await page.click('#login button');
+            await page.waitForNavigation({ waitUntil: 'networkidle0' });
         }
 
-        await page.goto(`${CODEWARS_BASE_URL}/users/${program.codewarsUsername}/completed_solutions`, { waitUntil: 'domcontentloaded' });
+        await page.goto(`${CODEWARS_BASE_URL}/users/${program.username}/completed_solutions`, { waitUntil: 'domcontentloaded' });
+        await autoScroll(page);
+
+        // Until this point we have loaded all of our solutions
     }
 
-    // await browser.close();
+    await browser.close();
 }
 
 main();
