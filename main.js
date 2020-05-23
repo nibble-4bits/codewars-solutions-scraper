@@ -73,12 +73,12 @@ async function main() {
             await page.click('#login button');
             await page.waitForNavigation({ waitUntil: 'networkidle0' });
         }
-
-        await page.goto(`${CODEWARS_BASE_URL}/users/${program.username}/completed_solutions`, { waitUntil: 'domcontentloaded' });
-        await autoScroll(page);
-
-        // Until this point we have loaded all of our solutions
     }
+
+    await page.goto(`${CODEWARS_BASE_URL}/users/${program.username}/completed_solutions`, { waitUntil: 'domcontentloaded' });
+    await autoScroll(page);
+
+    // Until this point we have loaded all of our solutions
 
     await browser.close();
 }
