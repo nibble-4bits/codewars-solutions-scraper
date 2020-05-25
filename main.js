@@ -7,7 +7,7 @@ const CODEWARS_BASE_URL = 'https://www.codewars.com';
 
 async function autoScroll(page) {
     return await page.evaluate(() => {
-        async function wait(ms) {
+        async function sleep(ms) {
             return new Promise((resolve, reject) => {
                 setTimeout(resolve, ms);
             });
@@ -18,7 +18,7 @@ async function autoScroll(page) {
             while (currentScrollHeight < document.body.scrollHeight) {
                 currentScrollHeight = document.body.scrollHeight;
                 window.scroll(0, document.body.scrollHeight);
-                await wait(1500);
+                await sleep(1500);
             }
             resolve();
         });
@@ -49,6 +49,7 @@ async function main() {
     });
 
     const page = await browser.newPage();
+    await page.setViewport({ width: 1920, height: 1080 });
 
     if (program.codewars) {
         // TODO: handle this case
