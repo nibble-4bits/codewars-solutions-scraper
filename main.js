@@ -53,7 +53,11 @@ async function main() {
 
     if (program.codewars) {
         // TODO: handle this case
-        // await page.goto(`${CODEWARS_BASE_URL}/users/sign_in`)
+        await page.goto(`${CODEWARS_BASE_URL}/users/sign_in`)
+
+        await page.type('#user_email', program.email);
+        await page.type('#user_password', program.password);
+        await page.click('#new_user > button');
     }
     else if (program.github) {
         await page.goto(`${CODEWARS_BASE_URL}/users/preauth/github/signin`, { waitUntil: 'domcontentloaded' });
