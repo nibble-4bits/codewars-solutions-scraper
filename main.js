@@ -86,7 +86,7 @@ async function main() {
     // Now we get all solutions for each kata we have solved
     const solutions = await page.evaluate(() => {
         return [...document.querySelectorAll('.list-item.solutions')].map(solution => {
-            const problemName = solution.querySelector('.item-title a').textContent.toLowerCase().replace(/ /g, '_');
+            const problemName = solution.querySelector('.item-title a').textContent.toLowerCase().replace(/ /g, '_').replace(/\W/gi, '');
             const languages = [...solution.querySelectorAll('h6')].map(language => language.textContent.replace(':', ''));
             const codeSolutions = [...solution.querySelectorAll('.markdown')];
 
