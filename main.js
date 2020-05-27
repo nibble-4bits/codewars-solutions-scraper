@@ -129,6 +129,16 @@ async function main() {
     });
 
     await browser.close();
+
+    fs.mkdirSync(path.join(__dirname, 'my_solutions'));
+    for (const solution of solutions) {
+        if (!fs.existsSync(path.join(__dirname, 'my_solutions', solution.problemName))) {
+            fs.mkdirSync(path.join(__dirname, 'my_solutions', solution.problemName));
+            for (let i = 0; i < solution.codeSolutions.length; i++) {
+                fs.writeFileSync(path.join(__dirname, 'my_solutions', solution.problemName, generateFilename(i, solution.languages[i])), solution.codeSolutions[i]);
+            }
+        }
+    }
 }
 
 main();
