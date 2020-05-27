@@ -2,6 +2,8 @@ const puppeteer = require('puppeteer');
 const { program } = require('commander');
 const inquirer = require('inquirer');
 const chalk = require('chalk');
+const path = require('path');
+const fs = require('fs');
 
 const CODEWARS_BASE_URL = 'https://www.codewars.com';
 
@@ -23,6 +25,34 @@ async function autoScroll(page) {
             resolve();
         });
     });
+}
+
+function generateFilename(index, language) {
+    let extension;
+    switch (language) {
+        case 'C':
+            extension = 'c';
+            break;
+        case 'C++':
+            extension = 'cpp';
+            break;
+        case 'C#':
+            extension = 'cs';
+            break;
+        case 'Java':
+            extension = 'java';
+            break;
+        case 'JavaScript':
+            extension = 'js';
+            break;
+        case 'Python':
+            extension = 'py';
+            break;
+        default:
+            extension = 'txt';
+            break;
+    }
+    return index === 0 ? `solution.${extension}` : `solution_${index + 1}.${extension}`;
 }
 
 async function main() {
