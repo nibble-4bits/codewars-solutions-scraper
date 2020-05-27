@@ -51,15 +51,14 @@ async function main() {
     const page = await browser.newPage();
     await page.setViewport({ width: 1920, height: 1080 });
 
-    if (program.codewars) {
-        // TODO: handle this case
+    if (program.codewars) { // Log in using Codewars credentials
         await page.goto(`${CODEWARS_BASE_URL}/users/sign_in`)
 
         await page.type('#user_email', program.email);
         await page.type('#user_password', program.password);
         await page.click('#new_user > button');
     }
-    else if (program.github) {
+    else if (program.github) { // Login using GitHub credentials
         await page.goto(`${CODEWARS_BASE_URL}/users/preauth/github/signin`, { waitUntil: 'domcontentloaded' });
 
         await page.type('#login_field', program.email);
@@ -76,14 +75,18 @@ async function main() {
 
             await page.type('#otp', answer.verificationCode);
             await page.click('#login button');
-            await page.waitForNavigation({ waitUntil: 'networkidle0' });
         }
     }
 
+    await page.waitForNavigation({ waitUntil: 'networkidle0' });
     await page.goto(`${CODEWARS_BASE_URL}/users/${program.username}/completed_solutions`, { waitUntil: 'domcontentloaded' });
     await autoScroll(page);
 
     // Until this point we have loaded all of our solutions
+    // Now we get all solutions to each kata we have solved
+    const solutions = await page.evaluate(() => {
+        return document.querySelectorAll('div.list-item.solutions');
+    });
 
     await browser.close();
 }
