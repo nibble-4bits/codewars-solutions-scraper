@@ -135,7 +135,10 @@ async function main() {
         if (!fs.existsSync(path.join(__dirname, 'my_solutions', solution.problemName))) {
             fs.mkdirSync(path.join(__dirname, 'my_solutions', solution.problemName));
             for (let i = 0; i < solution.codeSolutions.length; i++) {
-                fs.writeFileSync(path.join(__dirname, 'my_solutions', solution.problemName, generateFilename(i, solution.languages[i])), solution.codeSolutions[i]);
+                fs.writeFileSync(
+                    path.join(__dirname, 'my_solutions', solution.problemName, generateFilename(i, solution.languages[i] || solution.languages[0])),
+                    solution.codeSolutions[i]
+                );
             }
         }
     }
