@@ -83,9 +83,19 @@ async function main() {
     await autoScroll(page);
 
     // Until this point we have loaded all of our solutions
-    // Now we get all solutions to each kata we have solved
+    // Now we get all solutions for each kata we have solved
     const solutions = await page.evaluate(() => {
-        return document.querySelectorAll('div.list-item.solutions');
+        return [...document.querySelectorAll('.list-item.solutions')].map(solution => {
+            const problemName = solution.querySelector('.item-title a').textContent;
+            const languages = [...solution.querySelectorAll('h6')].map(language => language.textContent.replace(':', ''));
+            const codeSolutions = [...solution.querySelectorAll('.markdown')];
+
+            return {
+                problemName,
+                languages,
+                codeSolutions
+            };
+        });
     });
 
     await browser.close();
