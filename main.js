@@ -108,7 +108,7 @@ async function main() {
         }
     }
 
-    await page.waitForNavigation({ waitUntil: 'networkidle0' });
+    await page.waitForNavigation({ waitUntil: 'domcontentloaded' });
     await page.goto(`${CODEWARS_BASE_URL}/users/${program.username}/completed_solutions`, { waitUntil: 'domcontentloaded' });
     await autoScroll(page);
 
