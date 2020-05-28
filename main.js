@@ -105,10 +105,10 @@ async function main() {
 
             await page.type('#otp', answer.verificationCode);
             await page.click('#login button');
+            await page.waitForNavigation({ waitUntil: 'domcontentloaded' });
         }
     }
 
-    await page.waitForNavigation({ waitUntil: 'domcontentloaded' });
     await page.goto(`${CODEWARS_BASE_URL}/users/${program.username}/completed_solutions`, { waitUntil: 'domcontentloaded' });
     await autoScroll(page);
 
