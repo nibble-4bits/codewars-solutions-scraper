@@ -6,6 +6,7 @@ const path = require('path');
 const fs = require('fs');
 
 const CODEWARS_BASE_URL = 'https://www.codewars.com';
+const OUTPUT_DIR_NAME = 'my_solutions';
 
 async function autoScroll(page) {
     return await page.evaluate(() => {
@@ -130,13 +131,13 @@ async function main() {
 
     await browser.close();
 
-    fs.mkdirSync(path.join(__dirname, 'my_solutions'));
+    fs.mkdirSync(path.join(__dirname, OUTPUT_DIR_NAME));
     for (const solution of solutions) {
-        if (!fs.existsSync(path.join(__dirname, 'my_solutions', solution.problemName))) {
-            fs.mkdirSync(path.join(__dirname, 'my_solutions', solution.problemName));
+        if (!fs.existsSync(path.join(__dirname, OUTPUT_DIR_NAME, solution.problemName))) {
+            fs.mkdirSync(path.join(__dirname, OUTPUT_DIR_NAME, solution.problemName));
             for (let i = 0; i < solution.codeSolutions.length; i++) {
                 fs.writeFileSync(
-                    path.join(__dirname, 'my_solutions', solution.problemName, generateFilename(i, solution.languages[i] || solution.languages[0])),
+                    path.join(__dirname, OUTPUT_DIR_NAME, solution.problemName, generateFilename(i, solution.languages[i] || solution.languages[0])),
                     solution.codeSolutions[i]
                 );
             }
