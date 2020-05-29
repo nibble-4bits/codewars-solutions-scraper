@@ -101,7 +101,11 @@ async function main() {
         if (page.url() === 'https://github.com/sessions/verified-device') {
             const answer = await inquirer
                 .prompt([
-                    { type: 'input', name: 'verificationCode', message: `Please enter the verification code that was sent to ${program.email}:` }
+                    {
+                        type: 'input',
+                        name: 'verificationCode',
+                        message: `Please enter the verification code that was sent to ${program.email}:`
+                    }
                 ]);
 
             await page.type('#otp', answer.verificationCode);
