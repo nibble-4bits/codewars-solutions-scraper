@@ -75,8 +75,7 @@ async function main() {
     }
 
     const browser = await puppeteer.launch({
-        headless: false,
-        timeout: 60000
+        headless: false
     });
 
     const page = await browser.newPage();
