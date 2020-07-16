@@ -49,6 +49,12 @@ function generateFilename(index, language) {
         case 'Python':
             extension = 'py';
             break;
+        case 'Shell':
+            extension = 'sh';
+            break;
+        case 'TypeScript':
+            extension = 'ts';
+            break;
         default:
             extension = 'txt';
             break;
