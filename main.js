@@ -31,28 +31,28 @@ async function autoScroll(page) {
 function generateFilename(index, language) {
     let extension;
     switch (language) {
-        case 'C':
+        case 'c':
             extension = 'c';
             break;
-        case 'C++':
+        case 'cpp':
             extension = 'cpp';
             break;
-        case 'C#':
+        case 'csharp':
             extension = 'cs';
             break;
-        case 'Java':
+        case 'java':
             extension = 'java';
             break;
-        case 'JavaScript':
+        case 'javascript':
             extension = 'js';
             break;
-        case 'Python':
+        case 'python':
             extension = 'py';
             break;
-        case 'Shell':
+        case 'shell':
             extension = 'sh';
             break;
-        case 'TypeScript':
+        case 'typescript':
             extension = 'ts';
             break;
         default:
@@ -128,8 +128,8 @@ async function main() {
         return [...document.querySelectorAll('.list-item.solutions')].map(solution => {
             const problemId = solution.querySelector('.item-title a').getAttribute('href').match(/[a-z0-9]+$/g)[0];
             const problemName = solution.querySelector('.item-title a').textContent.toLowerCase().replace(/[^\w ]/gi, '').trim().replace(/ +/g, '_');
-            const languages = [...solution.querySelectorAll('h6')].map(language => language.textContent.replace(':', ''));
-            const codeSolutions = [...solution.querySelectorAll('.markdown')].map(code => code.textContent);
+            const languages = [...solution.querySelectorAll('code')].map(code => code.getAttribute('data-language'));
+            const codeSolutions = [...solution.querySelectorAll('code')].map(code => code.textContent);
 
             return {
                 problemId,
@@ -148,7 +148,7 @@ async function main() {
             fs.mkdirSync(path.join(__dirname, OUTPUT_DIR_NAME, solution.problemName));
             for (let i = 0; i < solution.codeSolutions.length; i++) {
                 fs.writeFileSync(
-                    path.join(__dirname, OUTPUT_DIR_NAME, solution.problemName, generateFilename(i, solution.languages[i] || solution.languages[0])),
+                    path.join(__dirname, OUTPUT_DIR_NAME, solution.problemName, generateFilename(i, solution.languages[i])),
                     solution.codeSolutions[i]
                 );
             }
