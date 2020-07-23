@@ -4,6 +4,7 @@ const inquirer = require('inquirer');
 const chalk = require('chalk');
 const path = require('path');
 const fs = require('fs');
+const { exit } = require('process');
 
 const CODEWARS_BASE_URL = 'https://www.codewars.com';
 const OUTPUT_DIR_NAME = 'my_solutions';
@@ -77,7 +78,7 @@ async function main() {
     if (!program.codewars && !program.github) {
         console.error(chalk.redBright('You must provide a type of authentication!'));
         console.info(chalk.blueBright('Use --help to read about auth options'));
-        return;
+        exit(1);
     }
 
     const browser = await puppeteer.launch({
