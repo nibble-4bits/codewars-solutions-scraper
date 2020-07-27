@@ -2,12 +2,12 @@
   "name": "codewars-solutions-scraper",
   "version": "1.0.0",
   "description": "A scraper that gets the solutions of all of the CodeWars katas you have solved",
-  "main": "main.js",
+  "main": "src/main.js",
   "bin": {
-    "codewars-solutions": "./main.js"
+    "codewars-solutions": "src/main.js"
   },
   "scripts": {
-    "start": "node main.js",
+    "start": "node src/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
