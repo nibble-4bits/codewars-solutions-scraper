@@ -7,6 +7,8 @@ const path = require('path');
 const fs = require('fs');
 const { exit } = require('process');
 
+const extensions = require('./extensions.js');
+
 const CODEWARS_BASE_URL = 'https://www.codewars.com';
 const OUTPUT_DIR_NAME = 'my_solutions';
 
@@ -31,36 +33,7 @@ async function autoScroll(page) {
 }
 
 function generateFilename(index, language) {
-    let extension;
-    switch (language) {
-        case 'c':
-            extension = 'c';
-            break;
-        case 'cpp':
-            extension = 'cpp';
-            break;
-        case 'csharp':
-            extension = 'cs';
-            break;
-        case 'java':
-            extension = 'java';
-            break;
-        case 'javascript':
-            extension = 'js';
-            break;
-        case 'python':
-            extension = 'py';
-            break;
-        case 'shell':
-            extension = 'sh';
-            break;
-        case 'typescript':
-            extension = 'ts';
-            break;
-        default:
-            extension = 'txt';
-            break;
-    }
+    let extension = extensions[language] || '.txt';
     return index === 0 ? `solution.${extension}` : `solution_${index + 1}.${extension}`;
 }
 
