@@ -117,7 +117,7 @@ async function main() {
 
     await browser.close();
 
-    fs.mkdirSync(path.join(__dirname, OUTPUT_DIR_NAME));
+    fs.mkdirSync(path.join(__dirname, OUTPUT_DIR_NAME), { recursive: true });
     for (const solution of solutions) {
         if (!fs.existsSync(path.join(__dirname, OUTPUT_DIR_NAME, solution.problemName))) {
             fs.mkdirSync(path.join(__dirname, OUTPUT_DIR_NAME, solution.problemName));
