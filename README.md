@@ -15,7 +15,7 @@ And the command `codewars-solutions-scraper` will be installed globally in your 
 ## Usage
 
 ```sh
-Usage: codewars-solutions-scraper [-c, --codewars | -g, --github] -u, --username <username> -e, --email <email> -p, --password <password>
+codewars-solutions-scraper [-c, --codewars | -g, --github] -u, --username <username> -e, --email <email> -p, --password <password>
 
 Options:
   -V, --version              output the version number
