@@ -5,13 +5,14 @@ const inquirer = require('inquirer');
 const chalk = require('chalk');
 const path = require('path');
 const fs = require('fs');
+const { homedir } = require('os');
 const { exit } = require('process');
 
 const extensions = require('./extensions.js');
 
 const DEBUG_FLAG = false;
 const CODEWARS_BASE_URL = 'https://www.codewars.com';
-const OUTPUT_DIR_NAME = 'my_solutions';
+const DEFAULT_OUTPUT_DIR_PATH = path.join(homedir(), 'my_codewars_solutions');
 
 async function autoScroll(page) {
     return await page.evaluate(() => {
@@ -44,6 +45,7 @@ async function main() {
         .name('codewars-solutions-scraper')
         .option('-c, --codewars', 'use CodeWars login credentials')
         .option('-g, --github', 'use GitHub login credentials')
+        .option('-o, --output <path>', 'path to the output directory where solutions will be saved', DEFAULT_OUTPUT_DIR_PATH)
         .requiredOption('-u, --username <username>', 'your CodeWars username')
         .requiredOption('-e, --email <email>', 'your GitHub or CodeWars account email')
         .requiredOption('-p, --password <password>', 'your GitHub or CodeWars account password')
@@ -117,13 +119,13 @@ async function main() {
 
     await browser.close();
 
-    fs.mkdirSync(path.join(__dirname, OUTPUT_DIR_NAME), { recursive: true });
+    fs.mkdirSync(path.join(program.output), { recursive: true });
     for (const solution of solutions) {
-        if (!fs.existsSync(path.join(__dirname, OUTPUT_DIR_NAME, solution.problemName))) {
-            fs.mkdirSync(path.join(__dirname, OUTPUT_DIR_NAME, solution.problemName));
+        if (!fs.existsSync(path.join(program.output, solution.problemName))) {
+            fs.mkdirSync(path.join(program.output, solution.problemName));
             for (let i = 0; i < solution.codeSolutions.length; i++) {
                 fs.writeFileSync(
-                    path.join(__dirname, OUTPUT_DIR_NAME, solution.problemName, generateFilename(i, solution.languages[i])),
+                    path.join(program.output, solution.problemName, generateFilename(i, solution.languages[i])),
                     solution.codeSolutions[i]
                 );
             }
