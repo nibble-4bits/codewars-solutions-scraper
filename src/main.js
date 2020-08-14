@@ -55,6 +55,10 @@ async function main() {
         console.error(chalk.redBright('You must provide a type of authentication!'));
         console.info(chalk.blueBright('Use --help to read about auth options'));
         exit(1);
+    } else if (program.codewars && program.github) {
+        console.error(chalk.redBright('You cannot provide both types of authentication!'));
+        console.info(chalk.blueBright('Only provide one type of authentication and run the command again'));
+        exit(1);
     }
 
     const browser = await puppeteer.launch({
