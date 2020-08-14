@@ -42,7 +42,6 @@ async function main() {
     program
         .version('1.0.0')
         .name('codewars-solutions-scraper')
-        .usage('[-c, --codewars | -g, --github] -u, --username <username> -e, --email <email> -p, --password <password>')
         .option('-c, --codewars', 'use CodeWars login credentials')
         .option('-g, --github', 'use GitHub login credentials')
         .requiredOption('-u, --username <username>', 'your CodeWars username')
