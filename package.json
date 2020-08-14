@@ -4,7 +4,7 @@
   "description": "A scraper that gets the solutions of all of the CodeWars katas you have solved",
   "main": "src/main.js",
   "bin": {
-    "codewars-solutions": "src/main.js"
+    "codewars-solutions-scraper": "src/main.js"
   },
   "scripts": {
     "start": "node src/main.js",
