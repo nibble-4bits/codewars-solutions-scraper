@@ -9,6 +9,7 @@ const { exit } = require('process');
 
 const extensions = require('./extensions.js');
 
+const DEBUG_FLAG = false;
 const CODEWARS_BASE_URL = 'https://www.codewars.com';
 const OUTPUT_DIR_NAME = 'my_solutions';
 
@@ -56,7 +57,7 @@ async function main() {
     }
 
     const browser = await puppeteer.launch({
-        headless: false
+        headless: !DEBUG_FLAG
     });
 
     const page = await browser.newPage();
