@@ -22,6 +22,7 @@ Options:
   -c, --codewars             use CodeWars login credentials
   -g, --github               use GitHub login credentials
   -o, --output <path>        path to the output directory where solutions will be saved (default: <YOUR_HOME_DIRECTORY>/my_codewars_solutions)
+  -v, --verbose              explain what is being done
   -u, --username <username>  your CodeWars username
   -e, --email <email>        your GitHub or CodeWars account email
   -p, --password <password>  your GitHub or CodeWars account password
@@ -40,9 +41,9 @@ If you want to log in to CodeWars using your GitHub credentials then run:
 codewars-solutions-scraper -g -u <YOUR_CODEWARS_USERNAME> -e <YOUR_GITHUB_EMAIL> -p <YOUR_GITHUB_PASSWORD>
 ```
 
-Note that if you log in via GitHub, you will be prompted to enter a verification code sent to your GitHub account email. 
+Note that if you log in via GitHub, you will be prompted to enter a verification code sent to your GitHub account email.
 
-The prompt will look like this: 
+The prompt will look like this:
 
 `Please enter the verification code that was sent to <YOUR_GITHUB_EMAIL>:`
 
