@@ -2,18 +2,22 @@
 const puppeteer = require('puppeteer');
 const { program } = require('commander');
 const inquirer = require('inquirer');
+const log = require('loglevel');
+const prefixer = require('loglevel-plugin-prefix');
 const chalk = require('chalk');
 const path = require('path');
 const fs = require('fs');
 const { homedir } = require('os');
 const { exit } = require('process');
 const { version: packageVersion } = require('../package.json');
-
 const extensions = require('./extensions.js');
 
 const DEBUG_FLAG = false;
 const CODEWARS_BASE_URL = 'https://www.codewars.com';
 const DEFAULT_OUTPUT_DIR_PATH = path.join(homedir(), 'my_codewars_solutions');
+
+prefixer.reg(log);
+prefixer.apply(log);
 
 async function autoScroll(page) {
     return await page.evaluate(() => {
@@ -47,6 +51,7 @@ async function main() {
         .option('-c, --codewars', 'use CodeWars login credentials')
         .option('-g, --github', 'use GitHub login credentials')
         .option('-o, --output <path>', 'path to the output directory where solutions will be saved', DEFAULT_OUTPUT_DIR_PATH)
+        .option('-v, --verbose', 'explain what is being done')
         .requiredOption('-u, --username <username>', 'your CodeWars username')
         .requiredOption('-e, --email <email>', 'your GitHub or CodeWars account email')
         .requiredOption('-p, --password <password>', 'your GitHub or CodeWars account password')
@@ -62,6 +67,10 @@ async function main() {
         exit(1);
     }
 
+    log.setDefaultLevel('SILENT');
+    if (program.verbose) log.setLevel('INFO');
+
+    log.info('Launching Puppeteer instance.');
     const browser = await puppeteer.launch({
         headless: !DEBUG_FLAG
     });
@@ -70,6 +79,7 @@ async function main() {
     await page.setViewport({ width: 1920, height: 1080 });
 
     if (program.codewars) { // Log in using Codewars credentials
+        log.info('Attempting to log in using Codewars credentials.');
         await page.goto(`${CODEWARS_BASE_URL}/users/sign_in`)
 
         await page.type('#user_email', program.email);
@@ -77,6 +87,7 @@ async function main() {
         await page.click('#new_user > button');
     }
     else if (program.github) { // Login using GitHub credentials
+        log.info('Attempting to log in using GitHub credentials.');
         await page.goto(`${CODEWARS_BASE_URL}/users/preauth/github/signin`, { waitUntil: 'domcontentloaded' });
 
         await page.type('#login_field', program.email);
@@ -100,12 +111,16 @@ async function main() {
             await page.waitForNavigation({ waitUntil: 'domcontentloaded' });
         }
     }
+    log.info('Login successful.');
+    log.info(`Navigating to ${CODEWARS_BASE_URL}/users/${program.username}/completed_solutions.`);
 
     await page.goto(`${CODEWARS_BASE_URL}/users/${program.username}/completed_solutions`, { waitUntil: 'domcontentloaded' });
+    log.info('Loading all solutions.');
     await autoScroll(page);
 
     // Until this point we have loaded all of our solutions
     // Now we get all solutions for each kata we have solved
+    log.info('Scraping solutions.');
     const solutions = await page.evaluate(() => {
         return [...document.querySelectorAll('.list-item.solutions')].map(solution => {
             const problemId = solution.querySelector('.item-title a').getAttribute('href').match(/[a-z0-9]+$/g)[0];
@@ -122,8 +137,11 @@ async function main() {
         });
     });
 
+    log.info(`Successfully scraped ${solutions.length} solutions.`);
+    log.info('Closing Puppeteer instance.');
     await browser.close();
 
+    log.info(`Saving all solutions to ${program.output}.`);
     fs.mkdirSync(path.join(program.output), { recursive: true });
     for (const solution of solutions) {
         if (!fs.existsSync(path.join(program.output, solution.problemName))) {
@@ -136,6 +154,7 @@ async function main() {
             }
         }
     }
+    log.info('DONE.');
 }
 
 main();
