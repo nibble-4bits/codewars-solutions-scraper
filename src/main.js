@@ -7,6 +7,7 @@ const path = require('path');
 const fs = require('fs');
 const { homedir } = require('os');
 const { exit } = require('process');
+const { version: packageVersion } = require('../package.json');
 
 const extensions = require('./extensions.js');
 
@@ -41,7 +42,7 @@ function generateFilename(index, language) {
 
 async function main() {
     program
-        .version('1.0.0')
+        .version(packageVersion)
         .name('codewars-solutions-scraper')
         .option('-c, --codewars', 'use CodeWars login credentials')
         .option('-g, --github', 'use GitHub login credentials')
