@@ -23,13 +23,14 @@ Options:
   -g, --github               use GitHub login credentials
   -o, --output <path>        path to the output directory where solutions will be saved (default: <YOUR_HOME_DIRECTORY>/my_codewars_solutions)
   -v, --verbose              explain what is being done
+  -d, --debug                run the scraper in debug mode (will make browser window appear to see what is being done)
   -u, --username <username>  your CodeWars username
   -e, --email <email>        your GitHub or CodeWars account email
   -p, --password <password>  your GitHub or CodeWars account password
   -h, --help                 display help for command
 ```
 
-* NOTE: `-c` and `-g` options are mutually exclusive.
+- NOTE: `-c` and `-g` options are mutually exclusive.
 
 ## Examples
 
@@ -67,10 +68,10 @@ codewars-solutions-scraper -g -o /path/to/custom/dir -u <YOUR_CODEWARS_USERNAME>
 
 ## Built With
 
-* [Puppeteer](https://pptr.dev)
-* [Commander](https://www.npmjs.com/package/commander)
-* [Inquirer](https://www.npmjs.com/package/inquirer)
-* [Chalk](https://www.npmjs.com/package/chalk)
+- [Puppeteer](https://pptr.dev)
+- [Commander](https://www.npmjs.com/package/commander)
+- [Inquirer](https://www.npmjs.com/package/inquirer)
+- [Chalk](https://www.npmjs.com/package/chalk)
 
 ## License
 
