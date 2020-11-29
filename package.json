@@ -1,6 +1,6 @@
 {
   "name": "codewars-solutions-scraper",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A scraper that gets the solutions of all of the CodeWars katas you have solved",
   "main": "src/main.js",
   "bin": {

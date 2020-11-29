@@ -12,7 +12,7 @@ const { exit } = require('process');
 const { version: packageVersion } = require('../package.json');
 const extensions = require('./extensions.js');
 
-const DEBUG_FLAG = false;
+let DEBUG_FLAG = false;
 const CODEWARS_BASE_URL = 'https://www.codewars.com';
 const DEFAULT_OUTPUT_DIR_PATH = path.join(homedir(), 'my_codewars_solutions');
 
@@ -52,6 +52,7 @@ async function main() {
         .option('-g, --github', 'use GitHub login credentials')
         .option('-o, --output <path>', 'path to the output directory where solutions will be saved', DEFAULT_OUTPUT_DIR_PATH)
         .option('-v, --verbose', 'explain what is being done')
+        .option('-d, --debug', 'run the scraper in debug mode (will make browser window appear to see what is being done)')
         .requiredOption('-u, --username <username>', 'your CodeWars username')
         .requiredOption('-e, --email <email>', 'your GitHub or CodeWars account email')
         .requiredOption('-p, --password <password>', 'your GitHub or CodeWars account password')
@@ -69,6 +70,7 @@ async function main() {
 
     log.setDefaultLevel('SILENT');
     if (program.verbose) log.setLevel('INFO');
+    if (program.debug) DEBUG_FLAG = true;
 
     log.info('Launching Puppeteer instance.');
     const browser = await puppeteer.launch({
