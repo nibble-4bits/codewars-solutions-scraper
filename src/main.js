@@ -80,17 +80,17 @@ async function main() {
     const page = await browser.newPage();
     await page.setViewport({ width: 1920, height: 1080 });
 
+    await page.goto(`${CODEWARS_BASE_URL}/users/sign_in`, { waitUntil: 'domcontentloaded' });
     if (program.codewars) { // Log in using Codewars credentials
         log.info('Attempting to log in using Codewars credentials.');
-        await page.goto(`${CODEWARS_BASE_URL}/users/sign_in`)
-
         await page.type('#user_email', program.email);
         await page.type('#user_password', program.password);
         await page.click('#new_user > button');
     }
     else if (program.github) { // Login using GitHub credentials
         log.info('Attempting to log in using GitHub credentials.');
-        await page.goto(`${CODEWARS_BASE_URL}/users/preauth/github/signin`, { waitUntil: 'domcontentloaded' });
+        await page.click('button[data-action="auth#githubSignIn"]');
+        await page.waitForNavigation({ waitUntil: 'networkidle0' });
 
         await page.type('#login_field', program.email);
         await page.type('#password', program.password);
