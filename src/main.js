@@ -40,7 +40,7 @@ async function autoScroll(page) {
 }
 
 function generateFilename(index, language) {
-    let extension = extensions[language] || '.txt';
+    let extension = extensions[language] || 'txt';
     return index === 0 ? `solution.${extension}` : `solution_${index + 1}.${extension}`;
 }
 
