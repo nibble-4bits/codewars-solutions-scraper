@@ -33,6 +33,7 @@ const extensions = {
     nim: 'nim',
     objc: 'm',
     ocaml: 'ml',
+    perl: 'pl',
     php: 'php',
     powershell: 'ps1',
     prolog: 'pl',
